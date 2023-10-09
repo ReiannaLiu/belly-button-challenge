@@ -128,6 +128,7 @@ function optionChanged() {
     updateBar(sample_data);
     updateBubble(sample_data);
     updateDemographicInfo(metadata);
+    updateGauge(metadata);
 }
 
 // Update the restyled plot's values
@@ -172,3 +173,31 @@ function updateDemographicInfo(newdata) {
     });
 }
 
+function updateGauge(newdata) {
+    let data = [{
+        type: "indicator",
+        mode: "gauge+number",
+        value: newdata.wfreq,
+        title: { text: "<b>Belly Button Washing Frequency</b><br>(Scrubs per Week)", font: { size: 24 } },
+        gauge: {
+            axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
+            bar: { color: "darkblue" },
+            bgcolor: "white",
+            borderwidth: 2,
+            bordercolor: "gray",
+            steps: [
+                { range: [0, 1], color: "#f7f4f9" },
+                { range: [1, 2], color: "#e4dcec" },
+                { range: [2, 3], color: "#d0c8e3" },
+                { range: [3, 4], color: "#bcb0da" },
+                { range: [4, 5], color: "#a79ad1" },
+                { range: [5, 6], color: "#9384c8" },
+                { range: [6, 7], color: "#7e6fbd" },
+                { range: [7, 8], color: "#6a59b4" },
+                { range: [8, 9], color: "#5543aa" }
+            ]
+        }
+    }]
+
+    Plotly.restyle("gauge", "value", [newdata.wfreq]);
+}
