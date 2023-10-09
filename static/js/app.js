@@ -15,7 +15,7 @@ d3.json(geoData).then(function (data) {
     initBar();
     initBubble();
     initDemographicInfo();
-
+    initGauge();
 });
 
 // Display the default plot
@@ -75,6 +75,42 @@ function initDemographicInfo() {
     Object.entries(data).forEach(([key, value]) => {
         panel.append("h6").text(`${key.toLowerCase()}: ${value}`);
     });
+}
+
+function initGauge() {
+    let data = [{
+        type: "indicator",
+        mode: "gauge+number",
+        value: geojson.metadata[0].wfreq,
+        title: { text: "<b>Belly Button Washing Frequency</b><br>(Scrubs per Week)", font: { size: 24 } },
+        gauge: {
+            axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
+            bar: { color: "darkblue" },
+            bgcolor: "white",
+            borderwidth: 2,
+            bordercolor: "gray",
+            steps: [
+                { range: [0, 1], color: "#f7f4f9" },
+                { range: [1, 2], color: "#e4dcec" },
+                { range: [2, 3], color: "#d0c8e3" },
+                { range: [3, 4], color: "#bcb0da" },
+                { range: [4, 5], color: "#a79ad1" },
+                { range: [5, 6], color: "#9384c8" },
+                { range: [6, 7], color: "#7e6fbd" },
+                { range: [7, 8], color: "#6a59b4" },
+                { range: [8, 9], color: "#5543aa" }
+            ]
+        }
+    }]
+
+    let layout = {
+        width: 600,
+        height: 500,
+        margin: { t: 0, b: 0 }
+    };
+
+    Plotly.newPlot("gauge", data, layout);
+
 }
 
 // On change to the DOM, call getData()
